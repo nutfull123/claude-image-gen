@@ -8,7 +8,7 @@ A Claude Code plugin that generates and edits images from chat by driving your o
 ## What it does
 
 You describe a picture in Claude Code. Claude rewrites it as a detailed prompt, asks which agy
-model and aspect ratio to use, runs `agy` in the background, and saves the result to
+model and aspect ratio to use, runs `agy` (in Claude's Terminal panel when the app has one, so you can watch), and saves the result to
 `./generated-images/` in your project.
 
 - Generate one image, or several if you ask for a number
@@ -22,7 +22,18 @@ sees your credentials.
 
 - Claude Code
 - Antigravity CLI `agy` 1.4.10 or newer, with a plan that includes image generation
-- You are logged in: run `agy` once in a terminal and follow the prompts
+
+## Connect your own agy account (required before first use)
+
+The plugin has no account, key or login of its own. It uses whatever account your `agy` CLI is
+signed in to, and spends that account's quota.
+
+1. Open a terminal and run `agy` with no arguments.
+2. Sign in with your own Google account when it asks.
+3. Check it worked: `agy models` must print a list of models.
+
+Until step 3 works the plugin stops at its first step and tells you to sign in. It never asks for,
+reads or stores your password, token or API key.
 
 ## Install
 
@@ -71,7 +82,7 @@ and how fast the run is; the image engine underneath is the same for every model
 | What you see | What to do |
 |---|---|
 | "agy not found" or no models listed | Install the Antigravity CLI, run `agy` once to log in, try again |
-| Quota or `429 RESOURCE_EXHAUSTED` | Your agy image quota is used up. Wait for the reset time agy reports. Switching model does not help |
+| Quota or `429 RESOURCE_EXHAUSTED` | Your agy image quota is used up. It is separate from the model limits shown in Antigravity's Settings > Models, so those can still look full. Wait for the reset time agy reports. Switching model does not help |
 | `denied_actions` in the report | agy tried to run a shell command and headless mode refused it. Ask again; do not enable permission bypass |
 | No image after a "SUCCESS" | agy reports success even when nothing was drawn. Read the message it returned; it is usually the quota |
 | Timeout | A run is cut off after 300 seconds. Ask for fewer images per request |
@@ -98,7 +109,16 @@ plugin สำหรับ Claude Code ที่สร้างและแก้
 
 - Claude Code
 - Antigravity CLI `agy` รุ่น 1.4.10 ขึ้นไป และแพ็กเกจที่สร้างภาพได้
-- login แล้ว: รัน `agy` ใน terminal หนึ่งครั้งแล้วทำตามขั้นตอนบนจอ
+
+### เชื่อมบัญชี agy ของคุณเอง (ต้องทำก่อนใช้ครั้งแรก)
+
+plugin ไม่มีบัญชี คีย์ หรือระบบ login ของตัวเอง มันใช้บัญชีที่ `agy` ของคุณ sign in อยู่ และใช้โควตาของบัญชีนั้น
+
+1. เปิด terminal แล้วรัน `agy` โดยไม่ใส่อะไรต่อท้าย
+2. sign in ด้วยบัญชี Google ของคุณเอง
+3. ตรวจว่าสำเร็จ: `agy models` ต้องแสดงรายการ model
+
+ถ้าข้อ 3 ยังไม่ผ่าน plugin จะหยุดตั้งแต่ขั้นแรกและบอกให้ sign in plugin ไม่ขอ ไม่อ่าน และไม่เก็บรหัสผ่าน token หรือ API key
 
 ### ติดตั้ง
 
@@ -130,6 +150,8 @@ plugin สำหรับ Claude Code ที่สร้างและแก้
 
 - รายการ model ดึงสดจาก `agy models` จึงเห็นเฉพาะตัวที่บัญชีคุณใช้ได้
 - model ที่เลือกเป็นตัวเขียนคำสั่งให้ตัวสร้างภาพของ agy ซึ่งเป็นตัวเดียวกันทุก model
+- agy รันในแผง Terminal ของ Claude ให้เห็น ถ้าแอปมีแผงนั้น ไม่เช่นนั้นรันเบื้องหลัง
+- โควตาสร้างภาพแยกจากโควตา model ในหน้า Settings > Models ของ Antigravity
 - ทุกครั้งใช้โควตาสร้างภาพของ agy ถ้าโควตาหมดต้องรอเวลารีเซ็ตที่ agy แจ้ง เปลี่ยน model ไม่ช่วย
 - plugin ไม่ลองใหม่เอง และไม่แตะ credential ของคุณ
 - ทดสอบบน macOS เท่านั้น

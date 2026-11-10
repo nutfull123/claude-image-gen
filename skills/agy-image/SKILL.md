@@ -5,7 +5,8 @@ description: Generate or edit images through the user's own logged-in Antigravit
 
 # agy-image
 
-Generate or edit images by driving the user's own `agy` CLI in headless mode. `agy` uses the
+Generate or edit images by driving the user's own `agy` CLI, in the visible Terminal panel when
+the session has one. `agy` uses the
 user's Antigravity subscription, so every run spends their quota: one run per request, no retries.
 
 Follow the steps in order. Speak and label dialog options in the user's language.
@@ -91,18 +92,33 @@ Use invoke_subagent with TypeName "image-generator" to EDIT the existing image a
 ```
 
 Save the filled template to `./generated-images/.agy-prompt.txt` with the file-writing tool (not
-`echo`, not a heredoc). Then run from the project directory with a shell timeout of at least 330
-seconds, substituting only the model id:
+`echo`, not a heredoc). The command to run, from the project directory, substituting only the
+model id, is this single line:
 
 ```bash
-agy -p "$(cat ./generated-images/.agy-prompt.txt)" --model <MODEL_ID> --output-format json --print-timeout 300s; rm -f ./generated-images/.agy-prompt.txt
+agy -p "$(cat ./generated-images/.agy-prompt.txt)" --model <MODEL_ID> --output-format json --print-timeout 300s | tee ./generated-images/.agy-result.json
 ```
 
-Tell the user it usually takes 30 to 90 seconds.
+Where to run it:
+
+- **If this session has a tool that runs a command in the user's visible Terminal panel** (for
+  example `run_in_terminal` in the Claude desktop app): run it there so the user can watch, and
+  tell them which tab. Then wait by reading that tab until a line starting with
+  `{"conversation_id"` appears or the shell prompt returns, for up to 330 seconds. Do not parse
+  the JSON from the terminal text: the panel wraps long lines.
+- **Otherwise** run it with the ordinary shell tool, with a timeout of at least 330 seconds.
+
+Tell the user it usually takes 30 to 90 seconds. When it has finished, read
+`./generated-images/.agy-result.json` with the file-reading tool, then run:
+
+```bash
+rm -f ./generated-images/.agy-prompt.txt ./generated-images/.agy-result.json
+```
 
 ## 7. Judge the result
 
-The last line of stdout is a JSON object. The run succeeded only if all of these hold:
+The last line of `.agy-result.json` is a JSON object. If the file is empty or has no JSON, that is
+a failure: report what the terminal or shell printed. The run succeeded only if all of these hold:
 
 - `status` is `SUCCESS`
 - `denied_actions` is missing or empty
