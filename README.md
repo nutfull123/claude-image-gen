@@ -110,6 +110,26 @@ The pictures themselves are drawn by **Nano Banana 2** (`gemini-3.1-flash-image`
 for every model. The plugin shows this before each run. agy 1.4.10 has no setting to switch to
 another image engine such as Nano Banana Pro.
 
+## Use it in the Claude desktop Chat tab
+
+The plugin above works in Claude Code only. For the Chat tab of the Claude desktop app there is a
+separate extension that does the same job.
+
+1. Do Step 1 and Step 2 above (install `agy` and log in). You also need
+   [Node.js](https://nodejs.org) 18 or newer.
+2. Download `agy-image.mcpb` from the
+   [latest release](https://github.com/nutfull123/claude-image-gen/releases/latest).
+3. Double-click the file and choose Install in Claude. Leave "Path to agy" empty.
+4. In a chat, ask for a picture: "use agy to draw a lighthouse at sunset".
+
+Claude lists your agy models and asks which one to use, as text, before every run. Images are
+saved to `~/Pictures/agy-images/` and shown in the chat. You can ask for up to 4 images at a time,
+or give the full path of a picture to edit (`/Users/your-name/Pictures/your-photo.jpg`).
+
+Differences from the plugin: no choice boxes, agy runs out of sight, and it does not work on
+claude.ai in a browser or on a phone, because agy lives on your computer. If the extension says agy
+was not found, open its settings and fill in "Path to agy" (run `which agy` in a terminal to get it).
+
 ## Troubleshooting
 
 | What you see | What to do |
@@ -209,6 +229,21 @@ plugin ใช้บัญชีที่ `agy` sign in อยู่ และใ
 2. รุ่นและระดับ (low / medium / high)
 
 ใช้เวลาราว 30–90 วินาทีต่อครั้ง ไฟล์ภาพอยู่ที่ `./generated-images/` และไม่เขียนทับไฟล์เดิม
+
+### ใช้ในแท็บ Chat ของแอป Claude desktop
+
+plugin ข้างบนใช้ได้เฉพาะใน Claude Code สำหรับแท็บ Chat ของแอป Claude desktop มีส่วนขยายแยกที่ทำงานแบบเดียวกัน
+
+1. ทำขั้นที่ 1 และ 2 ข้างบน (ติดตั้ง `agy` และ login) และต้องมี [Node.js](https://nodejs.org) รุ่น 18 ขึ้นไป
+2. ดาวน์โหลด `agy-image.mcpb` จาก[รุ่นล่าสุด](https://github.com/nutfull123/claude-image-gen/releases/latest)
+3. ดับเบิลคลิกไฟล์แล้วกด Install ใน Claude ช่อง "Path to agy" ปล่อยว่างได้
+4. ในแชต ขอภาพได้เลย เช่น "ใช้ agy วาดประภาคารตอนพระอาทิตย์ตก"
+
+Claude จะแสดงรายการ model ของ agy แล้วถามเป็นข้อความทุกครั้งก่อนสร้าง ภาพเก็บที่ `~/Pictures/agy-images/`
+และแสดงในแชต ขอได้สูงสุด 4 ภาพต่อครั้ง หรือให้ path เต็มของภาพที่จะแก้ (`/Users/your-name/Pictures/your-photo.jpg`)
+
+ข้อต่างจาก plugin: ไม่มีกล่องตัวเลือก มองไม่เห็น agy ตอนรัน และใช้บน claude.ai ในเบราว์เซอร์หรือมือถือไม่ได้
+ถ้าส่วนขยายแจ้งว่าไม่พบ agy ให้เปิดการตั้งค่าของส่วนขยายแล้วใส่ "Path to agy" (รัน `which agy` ใน terminal เพื่อดู path)
 
 ### ถ้าใช้ไม่ได้
 

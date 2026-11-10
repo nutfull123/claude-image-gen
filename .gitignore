@@ -2,3 +2,4 @@ generated-images/
 .superpowers/
 .DS_Store
 .claude/worktrees/
+*.mcpb

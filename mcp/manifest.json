@@ -1,0 +1,34 @@
+{
+  "manifest_version": "0.3",
+  "name": "agy-image",
+  "display_name": "agy image",
+  "version": "0.1.0",
+  "description": "Generate and edit images from Claude desktop chat through your own logged-in Antigravity CLI (agy).",
+  "long_description": "Runs the agy CLI on your computer to generate or edit images, saves them to ~/Pictures/agy-images, and shows them in chat. You must install the Antigravity CLI and sign in by running `agy` in a terminal first. The extension has no account or key of its own and never reads your credentials. Every image spends your own agy image quota.",
+  "author": { "name": "nutfull123", "url": "https://github.com/nutfull123" },
+  "repository": { "type": "git", "url": "https://github.com/nutfull123/claude-image-gen" },
+  "license": "MIT",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": { "AGY_PATH": "${user_config.agy_path}" }
+    }
+  },
+  "tools": [
+    { "name": "list_models", "description": "List the agy models your account can use." },
+    { "name": "generate_image", "description": "Generate or edit images with your logged-in agy CLI." }
+  ],
+  "user_config": {
+    "agy_path": {
+      "type": "string",
+      "title": "Path to agy (optional)",
+      "description": "Leave empty to find agy automatically. Set it only if the extension reports that agy was not found, for example /Users/your-name/.local/bin/agy.",
+      "required": false,
+      "default": ""
+    }
+  },
+  "compatibility": { "platforms": ["darwin", "linux"], "runtimes": { "node": ">=18.0.0" } }
+}
