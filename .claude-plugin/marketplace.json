@@ -1,0 +1,12 @@
+{
+  "name": "claude-image-gen",
+  "description": "Image generation for Claude Code through the Antigravity CLI (agy).",
+  "owner": { "name": "nutfull123", "url": "https://github.com/nutfull123" },
+  "plugins": [
+    {
+      "name": "agy-image",
+      "description": "Generate and edit images through your own logged-in agy CLI.",
+      "source": "./"
+    }
+  ]
+}
