@@ -1,6 +1,6 @@
 {
   "name": "agy-image",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate and edit images from Claude Code through your own logged-in Antigravity CLI (agy).",
   "author": { "name": "nutfull123", "url": "https://github.com/nutfull123" },
   "license": "MIT",

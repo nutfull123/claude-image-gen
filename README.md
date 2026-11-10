@@ -104,7 +104,11 @@ A run usually takes 30 to 90 seconds. Files are saved as
 
 The list comes live from `agy models`, so you only see models your account can use. The model you
 pick is the agent that briefs agy's built-in image generator. It changes how the brief is written
-and how fast the run is; the image engine underneath is the same for every model.
+and how fast the run is.
+
+The pictures themselves are drawn by **Nano Banana 2** (`gemini-3.1-flash-image`), which agy uses
+for every model. The plugin shows this before each run. agy 1.4.10 has no setting to switch to
+another image engine such as Nano Banana Pro.
 
 ## Troubleshooting
 
@@ -218,7 +222,8 @@ plugin ใช้บัญชีที่ `agy` sign in อยู่ และใ
 ### ข้อควรรู้
 
 - รายการ model ดึงสดจาก `agy models` จึงเห็นเฉพาะตัวที่บัญชีคุณใช้ได้
-- model ที่เลือกเป็นตัวเขียนคำสั่งให้ตัวสร้างภาพของ agy ซึ่งเป็นตัวเดียวกันทุก model
+- ตัววาดภาพคือ **Nano Banana 2** (`gemini-3.1-flash-image`) ซึ่ง agy ใช้กับทุก model plugin จะแสดงชื่อนี้ก่อนรันทุกครั้ง
+- model ที่เลือกเป็นตัวเขียนคำสั่งให้ Nano Banana 2 และ agy 1.4.10 ยังเปลี่ยนเป็นตัววาดอื่น เช่น Nano Banana Pro ไม่ได้
 - agy รันในแผง Terminal ของ Claude ให้เห็น ถ้าแอปมีแผงนั้น ไม่เช่นนั้นรันเบื้องหลัง
 - โควตาสร้างภาพแยกจากโควตา model ในหน้า Settings > Models ของ Antigravity
 - plugin ไม่ลองใหม่เอง และไม่แตะ credential ของคุณ

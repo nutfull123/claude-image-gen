@@ -49,6 +49,13 @@ Rewrite the user's description as one detailed English image prompt: subject, se
 lighting, composition. Keep what they asked for; do not add subjects they did not mention. In edit
 mode, write only the change. Show the final prompt to the user before asking anything.
 
+Right after the prompt, show this line (translated to the user's language):
+
+> Image engine: Nano Banana 2 (`gemini-3.1-flash-image`), the one agy always uses. The model you
+> pick next writes the brief for it.
+
+The engine is fixed by agy and is not a choice. Never list it as an option in a dialog.
+
 ## 4. Dialog 1: provider and aspect ratio
 
 One `AskUserQuestion` call with:
@@ -67,9 +74,10 @@ One `AskUserQuestion` call with:
   `Gemini 3.8 Flash`).
 - **Level**: the levels that exist for those families (for example Low, Medium, High).
 
-The chosen model is the agent that briefs agy's built-in image generator. It affects how the brief
-is written and how fast the run is, not which image engine draws. Say so if the user asks which
-model gives the best picture.
+The chosen model is the agent that briefs agy's built-in image generator, Nano Banana 2. It affects
+how the brief is written and how fast the run is, not which image engine draws. Say so if the user
+asks which model gives the best picture, or asks to switch to another Nano Banana model: agy does
+not offer one.
 
 Skip any question that has a single option. The model id is the row whose name is exactly
 `<Family> (<Level>)`. If that pair has no row, say so and ask again. If there are more than four
@@ -131,7 +139,7 @@ stderr, and stop. Do not retry.
 `agy` reports `SUCCESS` even when no image was made, so the copied-image check is the real test.
 The usual cause is the image quota: if `response` mentions a quota, `429` or `RESOURCE_EXHAUSTED`,
 tell the user their agy image quota is used up and when it resets if `response` says. Picking
-another model does not help: every model hands the drawing to the same built-in image generator.
+another model does not help: every model hands the drawing to the same Nano Banana 2 engine.
 
 ## 8. Deliver
 
@@ -151,5 +159,5 @@ Each printed line is a saved image. If nothing is printed, that is a failure: go
 failure report.
 
 Show every saved image to the user: use the file-sending tool if this session has one, otherwise
-give a markdown link and the path. Then say which model was used and how many images were
-delivered versus requested.
+give a markdown link and the path. Then say which model wrote the brief, that Nano Banana 2 drew
+it, and how many images were delivered versus requested.
