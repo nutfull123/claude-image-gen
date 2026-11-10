@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "agy-image",
   "display_name": "agy image",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate and edit images from Claude desktop chat through your own logged-in Antigravity CLI (agy).",
   "long_description": "Runs the agy CLI on your computer to generate or edit images, saves them to ~/Pictures/agy-images, and shows them in chat. You must install the Antigravity CLI and sign in by running `agy` in a terminal first. The extension has no account or key of its own and never reads your credentials. Every image spends your own agy image quota.",
   "author": { "name": "nutfull123", "url": "https://github.com/nutfull123" },

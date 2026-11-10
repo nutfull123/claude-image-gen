@@ -6,7 +6,8 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
 
-const SERVER = path.join(__dirname, '..', 'server', 'index.js');
+const ENTRY = path.join(__dirname, '..', 'server', 'index.js');
+const LIB = path.join(__dirname, '..', 'server', 'lib.js');
 const ID = '11111111-2222-3333-4444-555555555555';
 
 // A stand-in for the real CLI so tests spend no image quota.
@@ -50,7 +51,7 @@ function freshHome() {
   return home;
 }
 
-const server = () => require(SERVER);
+const server = () => require(LIB);
 const outDir = (home) => path.join(home, 'Pictures', 'agy-images');
 const ok = { prompt: 'a red apple', model: 'gemini-3.8-flash-low' };
 
@@ -143,7 +144,7 @@ test('5b edit mode uses the reference path and the edit template', async () => {
 
 test('6 protocol over stdio', async () => {
   const home = freshHome();
-  const child = spawn(process.execPath, [SERVER], { env: process.env });
+  const child = spawn(process.execPath, [ENTRY], { env: process.env });
   const lines = [];
   let buf = '';
   child.stdout.on('data', (d) => {
@@ -176,4 +177,17 @@ test('6 protocol over stdio', async () => {
   assert.equal(by[4].result.isError, true);
   assert.equal(by[5].error.code, -32601);
   assert.equal(fs.readdirSync(outDir(home)).length, 1);
+});
+
+test('7 entry starts when loaded by another script, as Claude desktop does', async () => {
+  freshHome();
+  // Loading the entry via -e makes require.main differ from the entry module.
+  const child = spawn(process.execPath, ['-e', `require(${JSON.stringify(ENTRY)})`], { env: process.env });
+  let out = '';
+  child.stdout.on('data', (d) => (out += d));
+  child.stdin.write(JSON.stringify({ jsonrpc: '2.0', id: 0, method: 'initialize', params: { protocolVersion: '2025-06-18' } }) + '\n');
+  const deadline = Date.now() + 5000;
+  while (!out.includes('\n') && Date.now() < deadline) await new Promise((r) => setTimeout(r, 50));
+  child.kill();
+  assert.equal(JSON.parse(out.split('\n')[0]).id, 0);
 });
