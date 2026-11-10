@@ -5,45 +5,72 @@ A Claude Code plugin that generates and edits images from chat by driving your o
 
 [ภาษาไทย](#ภาษาไทย)
 
+> **You must be logged in to the `agy` CLI in a terminal before this plugin can do anything.**
+> The plugin has no account, key or login of its own. See [Step 2](#step-2-log-in-to-agy-required).
+
 ## What it does
 
 You describe a picture in Claude Code. Claude rewrites it as a detailed prompt, asks which agy
-model and aspect ratio to use, runs `agy` (in Claude's Terminal panel when the app has one, so you can watch), and saves the result to
-`./generated-images/` in your project.
+model and aspect ratio to use, runs `agy` (in Claude's Terminal panel when the app has one, so you
+can watch), and saves the result to `./generated-images/` in your project.
 
 - Generate one image, or several if you ask for a number
-- Edit an existing image file ("make the sky night in ./photo.jpg")
+- Edit an existing image file ("make the sky night in ./your-photo.jpg")
 - Aspect ratios: 1:1, 16:9, 9:16, 4:3, or type your own (for example 3:4)
 
-The plugin is a single skill file. It has no server, no scripts and no dependencies, and it never
-sees your credentials.
+The plugin is a single skill file. It has no server, no scripts and no dependencies.
 
-## Requirements
+## Setup
 
-- Claude Code
-- Antigravity CLI `agy` 1.4.10 or newer, with a plan that includes image generation
+Anything written like `your-email@gmail.com` or `./your-photo.jpg` is a placeholder: replace it
+with your own. Everything else can be copied as it is.
 
-## Connect your own agy account (required before first use)
+### Step 1: Install what it needs
 
-The plugin has no account, key or login of its own. It uses whatever account your `agy` CLI is
-signed in to, and spends that account's quota.
+- [Claude Code](https://claude.com/claude-code)
+- Antigravity CLI `agy`, version 1.4.10 or newer. Follow the
+  [Antigravity docs](https://antigravity.google/docs) to install it.
+- A Google account whose plan includes Antigravity image generation
 
-1. Open a terminal and run `agy` with no arguments.
-2. Sign in with your own Google account when it asks.
-3. Check it worked: `agy models` must print a list of models.
+Check that `agy` is installed:
 
-Until step 3 works the plugin stops at its first step and tells you to sign in. It never asks for,
-reads or stores your password, token or API key.
+```bash
+agy --version
+```
 
-## Install
+### Step 2: Log in to agy (required)
 
-In Claude Code:
+Do this once, in a normal terminal, before you use the plugin.
+
+1. Run `agy` with nothing after it:
+
+   ```bash
+   agy
+   ```
+
+2. Sign in with your own Google account (`your-email@gmail.com`) when it asks.
+3. Leave agy with `/exit`, then check that the login worked:
+
+   ```bash
+   agy models
+   ```
+
+   You should see a list of models. If you see "Please sign in", repeat from 1.
+
+The plugin uses whichever account `agy` is signed in to and spends that account's quota. It never
+asks for, reads or stores your email, password, token or API key. If you are not logged in, the
+plugin stops at its first step and tells you to come back here.
+
+### Step 3: Install the plugin
+
+Type these two lines in Claude Code, one after the other:
 
 ```
+/plugin marketplace add nutfull123/claude-image-gen
 /plugin install agy-image@claude-image-gen
 ```
 
-Or from a terminal:
+Or run them from a terminal:
 
 ```bash
 claude plugin marketplace add nutfull123/claude-image-gen
@@ -53,12 +80,14 @@ claude plugin marketplace add nutfull123/claude-image-gen
 claude plugin install agy-image@claude-image-gen
 ```
 
-## Usage
+Then start a new Claude Code session.
+
+### Step 4: Make an image
 
 ```
 /agy-image:agy-image a lighthouse on a cliff at sunset
 /agy-image:agy-image 3 pictures of an orange cat on a windowsill
-/agy-image:agy-image edit ./photo.jpg so it is night time
+/agy-image:agy-image edit ./your-photo.jpg so it is night time
 ```
 
 Plain requests work too: "use agy to draw a lighthouse at sunset".
@@ -81,7 +110,9 @@ and how fast the run is; the image engine underneath is the same for every model
 
 | What you see | What to do |
 |---|---|
-| "agy not found" or no models listed | Install the Antigravity CLI, run `agy` once to log in, try again |
+| "agy not found" | Install the Antigravity CLI (Step 1) |
+| "Please sign in" or no models listed | Log in to agy in a terminal (Step 2) |
+| "Plugin not found" when installing | Run the `marketplace add` line first (Step 3) |
 | Quota or `429 RESOURCE_EXHAUSTED` | Your agy image quota is used up. It is separate from the model limits shown in Antigravity's Settings > Models, so those can still look full. Wait for the reset time agy reports. Switching model does not help |
 | `denied_actions` in the report | agy tried to run a shell command and headless mode refused it. Ask again; do not enable permission bypass |
 | No image after a "SUCCESS" | agy reports success even when nothing was drawn. Read the message it returned; it is usually the quota |
@@ -105,36 +136,65 @@ MIT
 
 plugin สำหรับ Claude Code ที่สร้างและแก้ภาพจากในแชต โดยสั่งงาน `agy` (Antigravity CLI) ของคุณเอง
 
-### สิ่งที่ต้องมี
+> **ต้อง login `agy` CLI ใน terminal ไว้ก่อน plugin จึงจะใช้ได้**
+> plugin ไม่มีบัญชี คีย์ หรือระบบ login ของตัวเอง ดู[ขั้นที่ 2](#ขั้นที่-2-login-agy-ต้องทำ)
 
-- Claude Code
-- Antigravity CLI `agy` รุ่น 1.4.10 ขึ้นไป และแพ็กเกจที่สร้างภาพได้
+### การตั้งค่า
 
-### เชื่อมบัญชี agy ของคุณเอง (ต้องทำก่อนใช้ครั้งแรก)
+ข้อความแบบ `your-email@gmail.com` หรือ `./your-photo.jpg` เป็นตัวอย่าง ให้เปลี่ยนเป็นของคุณเอง
+ส่วนอื่นคัดลอกไปใช้ได้เลย
 
-plugin ไม่มีบัญชี คีย์ หรือระบบ login ของตัวเอง มันใช้บัญชีที่ `agy` ของคุณ sign in อยู่ และใช้โควตาของบัญชีนั้น
+#### ขั้นที่ 1: ติดตั้งสิ่งที่ต้องมี
 
-1. เปิด terminal แล้วรัน `agy` โดยไม่ใส่อะไรต่อท้าย
-2. sign in ด้วยบัญชี Google ของคุณเอง
-3. ตรวจว่าสำเร็จ: `agy models` ต้องแสดงรายการ model
+- [Claude Code](https://claude.com/claude-code)
+- Antigravity CLI `agy` รุ่น 1.4.10 ขึ้นไป ติดตั้งตาม[เอกสารของ Antigravity](https://antigravity.google/docs)
+- บัญชี Google ที่แพ็กเกจรวมการสร้างภาพของ Antigravity
 
-ถ้าข้อ 3 ยังไม่ผ่าน plugin จะหยุดตั้งแต่ขั้นแรกและบอกให้ sign in plugin ไม่ขอ ไม่อ่าน และไม่เก็บรหัสผ่าน token หรือ API key
+ตรวจว่าติดตั้ง `agy` แล้ว:
 
-### ติดตั้ง
+```bash
+agy --version
+```
 
-พิมพ์ใน Claude Code:
+#### ขั้นที่ 2: login agy (ต้องทำ)
+
+ทำครั้งเดียวใน terminal ปกติ ก่อนใช้ plugin
+
+1. รัน `agy` โดยไม่ใส่อะไรต่อท้าย:
+
+   ```bash
+   agy
+   ```
+
+2. sign in ด้วยบัญชี Google ของคุณเอง (`your-email@gmail.com`) เมื่อระบบถาม
+3. ออกจาก agy ด้วย `/exit` แล้วตรวจว่า login สำเร็จ:
+
+   ```bash
+   agy models
+   ```
+
+   ต้องเห็นรายการ model ถ้าเห็น "Please sign in" ให้ทำซ้ำตั้งแต่ข้อ 1
+
+plugin ใช้บัญชีที่ `agy` sign in อยู่ และใช้โควตาของบัญชีนั้น plugin ไม่ขอ ไม่อ่าน และไม่เก็บอีเมล
+รหัสผ่าน token หรือ API key ของคุณ ถ้ายังไม่ login plugin จะหยุดตั้งแต่ขั้นแรกและบอกให้กลับมาทำขั้นนี้
+
+#### ขั้นที่ 3: ติดตั้ง plugin
+
+พิมพ์ 2 บรรทัดนี้ใน Claude Code ทีละบรรทัด:
 
 ```
 /plugin marketplace add nutfull123/claude-image-gen
 /plugin install agy-image@claude-image-gen
 ```
 
-### วิธีใช้
+จากนั้นเปิดเซสชัน Claude Code ใหม่
+
+#### ขั้นที่ 4: สร้างภาพ
 
 ```
 /agy-image:agy-image วาดประภาคารบนหน้าผาตอนพระอาทิตย์ตก
 /agy-image:agy-image ขอ 3 รูป แมวส้มนั่งริมหน้าต่าง
-/agy-image:agy-image แก้รูป ./photo.jpg ให้เป็นตอนกลางคืน
+/agy-image:agy-image แก้รูป ./your-photo.jpg ให้เป็นตอนกลางคืน
 ```
 
 หรือพิมพ์ธรรมดาก็ได้ เช่น "ใช้ agy วาดประภาคารตอนพระอาทิตย์ตก"
@@ -146,12 +206,20 @@ plugin ไม่มีบัญชี คีย์ หรือระบบ logi
 
 ใช้เวลาราว 30–90 วินาทีต่อครั้ง ไฟล์ภาพอยู่ที่ `./generated-images/` และไม่เขียนทับไฟล์เดิม
 
+### ถ้าใช้ไม่ได้
+
+| สิ่งที่เห็น | วิธีแก้ |
+|---|---|
+| "agy not found" | ติดตั้ง Antigravity CLI (ขั้นที่ 1) |
+| "Please sign in" หรือไม่มีรายการ model | login agy ใน terminal (ขั้นที่ 2) |
+| ติดตั้งแล้วขึ้นว่าไม่พบ plugin | รันบรรทัด `marketplace add` ก่อน (ขั้นที่ 3) |
+| โควตาหมด หรือ `429 RESOURCE_EXHAUSTED` | โควตาสร้างภาพของ agy หมด รอเวลารีเซ็ตที่ agy แจ้ง เปลี่ยน model ไม่ช่วย |
+
 ### ข้อควรรู้
 
 - รายการ model ดึงสดจาก `agy models` จึงเห็นเฉพาะตัวที่บัญชีคุณใช้ได้
 - model ที่เลือกเป็นตัวเขียนคำสั่งให้ตัวสร้างภาพของ agy ซึ่งเป็นตัวเดียวกันทุก model
 - agy รันในแผง Terminal ของ Claude ให้เห็น ถ้าแอปมีแผงนั้น ไม่เช่นนั้นรันเบื้องหลัง
 - โควตาสร้างภาพแยกจากโควตา model ในหน้า Settings > Models ของ Antigravity
-- ทุกครั้งใช้โควตาสร้างภาพของ agy ถ้าโควตาหมดต้องรอเวลารีเซ็ตที่ agy แจ้ง เปลี่ยน model ไม่ช่วย
 - plugin ไม่ลองใหม่เอง และไม่แตะ credential ของคุณ
-- ทดสอบบน macOS เท่านั้น
+- ทดสอบครบบน macOS เท่านั้น
