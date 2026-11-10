@@ -29,7 +29,6 @@ sees your credentials.
 In Claude Code:
 
 ```
-/plugin marketplace add nutfull123/claude-image-gen
 /plugin install agy-image@claude-image-gen
 ```
 
