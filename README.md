@@ -78,7 +78,8 @@ and how fast the run is; the image engine underneath is the same for every model
 
 ## Limits
 
-- Tested on macOS with agy 1.4.10 only. Windows and Linux are untested.
+- Tested end to end on macOS with agy 1.4.10. On Linux only the plugin's shell steps were tested
+  (Alpine, without a real agy). Windows is untested.
 - Every run spends your agy image quota. The plugin never retries on its own.
 - Images are read from agy's own folder (`~/.gemini/antigravity-cli/brain/`). If a future agy
   version moves it, the plugin will report "no image" until it is updated.
